@@ -9,3 +9,11 @@ pip3 freeze
 
 sudo service ssh start
 ssh -X <user name> @ <IP Adress>
+
+country=TW
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+          ssid="<network name>"
+          psk="<password>"
+         }
