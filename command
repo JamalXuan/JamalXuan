@@ -32,7 +32,8 @@ ryu-manager --verbose simple_switch_13.py
 ----------miniedit------------------------------
 sudo su (sudo -i)
 cd /home/usrname/mininet/examples/
-./miniedit.py
+./miniedit.py(empty example)
+python miniedit.py(目前交換狀況)
 
 ---------------mininet command----------------
 sudo mn
@@ -47,4 +48,6 @@ mininet>iperfudp
 mininet>pingall
 mininet>pingallfull
 mininet>pingpair
-mininet>[host/switch]ifconfig
+mininet>pingpairfull
+mininet>[host/switch] ifconfig
+mininet>[host/switch] ping [-c 封包數] [host/switch]
