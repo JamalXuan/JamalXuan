@@ -18,3 +18,13 @@ network={
           psk="<password>"
           key_mgmt=WPA-PSK
          }
+-------------------test-ryu controller--------------------------
+cd ryu/
+ovs-vsctl show
+ovs-dpctl show
+ovs-vsctl set Bridge s1 protocols=OpenFlow13
+ovs-ofctl -O OpenFlow13 dump-flows s1
+
+-------------------test-switch-----------------------------------
+cd ryu/ryu/app/
+ryu-manager --verbose simple_switch_13.py
