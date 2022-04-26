@@ -28,3 +28,23 @@ ovs-ofctl -O OpenFlow13 dump-flows s1
 -------------------test-switch-----------------------------------
 cd ryu/ryu/app/
 ryu-manager --verbose simple_switch_13.py
+
+----------miniedit------------------------------
+sudo su (sudo -i)
+cd /home/usrname/mininet/examples/
+./miniedit.py
+
+---------------mininet command----------------
+sudo mn
+mininet>net
+mininet>nodes
+mininet>links
+mininet>ports
+mininet>dump
+mininet>intfs
+mininet>iperf
+mininet>iperfudp
+mininet>pingall
+mininet>pingallfull
+mininet>pingpair
+mininet>[host/switch]ifconfig
