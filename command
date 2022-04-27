@@ -52,6 +52,9 @@ mininet>pingpairfull
 mininet>[host/switch] ifconfig
 mininet>[host/switch] ping [-c 封包數] [host/switch]
 
+------------mininet command Xtem
+sudo mn --topo single,3 --mac --switch ovsk --controller remote -x
+
 ----------------查詢已安裝套件------------------
 ls /lib/modules/$(uname -r)
 ls lib/modules/$(uname -r)kernel/drivers/
