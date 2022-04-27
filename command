@@ -55,3 +55,7 @@ mininet>[host/switch] ping [-c 封包數] [host/switch]
 ----------------查詢已安裝套件------------------
 ls /lib/modules/$(uname -r)
 ls lib/modules/$(uname -r)kernel/drivers/
+
+
+---------------openvswitch configure----------------
+pip install build
