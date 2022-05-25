@@ -65,4 +65,4 @@ pip install build
 ./configure CC=gcc
 
 ----------------ovs service open--------------------
-/etc/init.d/superscript/
+/etc/init.d/superscript
