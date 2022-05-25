@@ -63,3 +63,6 @@ ls lib/modules/$(uname -r)kernel/drivers/
 ---------------openvswitch configure----------------
 pip install build
 ./configure CC=gcc
+
+----------------ovs service open--------------------
+/etc/init.d/superscript/
