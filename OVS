@@ -1,0 +1,11 @@
+ovs-vswitchd：主要模組，實現內核datapath upcall 處理以及ofproto 查表，同時是dpdk datapath處理程式
+
+ovsdb-server：資料庫服務程式， 使用目前普遍認可的ovsdb 協定
+
+ovs-vsctl：網橋、介面等的創建、刪除、設置、查詢等
+
+ovs-dpctl：配置vswitch內核模組
+
+ovs-appctl：發送命令消息到ovs-vswithchd， 查看不同模塊狀態
+
+ovs-ofctl：下發流表資訊。 該命令可以配置其他openflow 交換機（採用openflow 協定）
