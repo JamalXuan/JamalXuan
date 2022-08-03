@@ -66,3 +66,6 @@ pip install build
 
 ----------------ovs service open--------------------
 /etc/init.d/superscript
+
+查詢DNS
+cat /etc/resolv.conf
