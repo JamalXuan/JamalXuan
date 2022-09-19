@@ -69,3 +69,6 @@ pip install build
 
 查詢DNS
 cat /etc/resolv.conf
+
+查詢主機端port
+cat /etc/service
