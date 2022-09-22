@@ -76,3 +76,6 @@ cat /etc/service
 use sflow
 cd sflow-rt
 ./start.sh
+
+ovs查詢設定
+ovs-vsctl list sflow
