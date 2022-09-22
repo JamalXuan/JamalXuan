@@ -72,3 +72,7 @@ cat /etc/resolv.conf
 
 查詢主機端port
 cat /etc/service
+
+use sflow
+cd sflow-rt
+./start.sh
