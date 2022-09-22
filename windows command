@@ -1,0 +1,158 @@
+ (一)、【指令】
+          route  print     顯示目前主機之IP路由表(Routing Table)
+                 add       加入路由資料
+                 delete    刪除路由資料
+                 change    更改路由資料
+         【功能】
+          顯示或修改目前主機之IP路由表 (Routing Table)。
+
+   (二)、【指令】
+          ping  [主機的網址或IP位址]
+          -t    持續發出測試封包直到終止此命令為止
+          -n    設定測試封包的個數，預設為4
+          -l    設定測試封包的長度，預設為64-byte
+         【功能】
+          偵測主機與遠端主機間的連線是否暢通，並顯示封包傳送往返的時間。
+         【說明】
+          執行"ping localhost"指令，結果顯示主機本身TCP/IP環境正常。其中127.0.0.1
+          係主機的Loopback位址，並非IP位址，其主要作為測試用途。
+
+   (三)、【指令】
+          ipconfig    顯示網路介面的IP位址、網路遮罩及Gateway位址
+          /all        顯示網路介面詳細的設定情形
+         【功能】
+          顯示主機網路介面的IP位址、網路遮罩(mask)、預設Gateway位址、
+          主機名稱及DNS伺服器位址等資訊。
+         【說明】
+          其中Physical Address是指MAC(Media Access Control)位址，
+          又稱Ethernet位址，係寫入網路卡上
+
+   (四)、【指令】
+          winipcfg
+         【功能】
+          顯示主機名稱、DNS伺服器位址、配接卡位址(即MAC位址)、IP位址、
+          網路遮罩(mask)及Gateway位址等資訊。
+         【說明】
+          本指令僅能於Windows 95上執行。
+   
+   (五)、【指令】
+          hostname
+         【功能】
+          顯示主機名稱。
+         
+   (六)、【指令】
+          tracert  [主機的網址或IP位址]
+          -d       不須將IP位址解析為網址
+          -h       設定封包傳送所經的最大hop數
+          -w       設定封包傳送之逾時秒數，超過則重送封包
+         【功能】
+          顯示主機至遠端主機間封包傳送所經之路逕、Gateway位址及往返時間。
+          
+   (七)、【指令】
+          finger  [使用者名稱]@ [主機的網址或IP位址]
+         【功能】
+          顯示遠端主機的某一個用戶資訊。
+        
+   (八)、【指令】
+          arp
+         【功能】
+          顯示IP位址與MAC(Media AccessControl)位址的對應關係，
+          可用來檢查IP位址相衝等問題。
+
+   (九)、【指令】
+          rcp  [主機名稱:來源檔] [主機名稱:目的檔]
+          -a  文字模式傳輸方式
+          -b  二進位模式傳輸方式
+          -r  連同子目錄一起複製
+         【功能】
+         rcp(remote copy)指令用於二台主機間複製檔案，遠端主機須提供rcp服務。
+
+   (十)、【指令】
+          rexec  [主機的網址或IP位址][命令command]
+         【功能】
+          rexec(remote exec)可將命令交由遠端主機來執行，
+          其中遠端主機須提供rexec服務，操作時並須輸入帳號及密碼。
+
+   (十一)、【指令】
+            rsh  [主機的網址或IP位址][命令command]
+           【功能】
+            rsh(remote shell) 可將命令交由遠端主機來執行，
+            其中遠端主機須提供rsh服務。
+ 
+   (十二)、【指令】
+            ftp  [主機的網址或IP位址][port(預設值21)]
+            -v   不顯示遠端主機的回應訊息
+            -i   於多檔傳送時不回應提示訊息詢問使用者
+            -s   ftp自動執行script檔
+            -w   設定傳輸緩衝區大小，預設為4096-byte
+           【功能】
+            提供網路上二台主機間之檔案傳送。
+           【說明】
+            一般而言，ftp有二種形式：
+            1.不具名的ftp，連線帳號為"anonymous"，密碼為個人的E-mail地址，
+              通常只能下載而不能上傳檔案。
+            2.具有主機連線帳號及密碼的ftp，能夠下載及上傳檔案。
+              可鍵入"？"查得全部ftp指令。
+              ftp常用指令如下：
+              !         暫時退出ftp回到DOS，按exit後又跳回ftp環境
+              ascii     文字檔傳輸模式
+              binary    二進位檔傳輸模式
+              bye       中止連線，並結束ftp命令
+              close     中止連線，但仍在ftp環境
+              cd        變更遠端主機工作目錄
+              dir       顯示遠端主機工作目錄內容
+              get       下載檔案
+              lcd       變更local主機工作目錄
+              ls        顯示遠端主機工作目錄內容
+              mget      下載多個檔案，可用萬用字元
+              mput      上傳多個檔案，可用萬用字元
+              open      與另一主機連線
+              prompt    多檔傳送時顯示確認提示字串
+              put        上傳檔案
+              pwd       顯示遠端主機工作目錄
+            ftp> pwd     顯示遠端主機的工作目錄為 /home/httpd151/htdocs/tris2
+            ftp> ls f*         查看以f為開頭的所有檔案
+            ftp> get fan.htm   下載fan.htm檔案
+            ftp> bye           結束ftp作業
+            或者可先用文書編輯器建立script檔如下：
+            ftp.txt內容：  trisadm      s使用者帳號
+            password     s密碼
+            get fan.htm    s下載檔案
+            bye          s中止連線
+            再執行"ftp -s:ftp.txt 203.69.78.113"指令，即可下載fan.htm檔案。
+
+     (十三)、【指令】
+              telnet  [主機的網址或IP位址][port(預設值23)]
+             【功能】
+              連到網路上一台遠端主機並模擬其終端機。
+            
+     (十四)、【指令】
+              nslookup  [主機的網址或IP位址]
+             【功能】
+              查詢一台主機的IP位址及其對應的網域名稱。
+             【說明】
+              本指令有二種工作模式，若有指定欲查詢的主機網址或IP位址，
+              則立即顯示結果；若nslookup後面沒加任何參數則進入指令模式，
+              使用者可鍵入主機網址、IP位址或其它命令進行查詢，最後鍵入exit
+              退出nslookup作業環境。
+     
+     (十五)、【指令】
+              netstat -a   顯示所有TCP、UPD連線及當時待連線狀態
+                      -e   顯示Ethernet介面之流量統計資料
+                      -p   顯示指定協定(ip,icmp,tcp,udp)的連線及統計資料
+                      -r   顯示路由表(Routing Table)
+                      -s   顯示ip,icmp,tcp,udp的流量統計資料
+             【功能】
+              顯示目前TCP/IP的狀態，建立連線之雙方及相關流量統計資料。
+             
+     (十六)、【指令】
+             nbtstat -a [遠端主機名稱]     顯示遠端主機的名稱
+                     -A [遠端主機IP位址]   顯示遠端主機的NetBIOS名稱列表
+                     -n                    顯示主機本身的NetBIOS名稱列表
+                     -r                    顯示主機執行過的NetBIOS名稱解析次數的統計
+                     -s                    顯示主機的NetBIOS連線表(Connection Table)
+             【功能】
+              顯示NetBIOS名稱列表、節點名稱對應的IP位址及NetBIOS進行通訊的
+              流量統計資料。
+     (十七)、【指令】
+              NET
