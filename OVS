@@ -47,3 +47,9 @@ ovs-ofctl add-flow ovs-switch “priority=1 idle_timeout=0,in_port=100,actions=m
 18.查看OVS 的版本信息：ovs-appctl –version 
 
 19.查看OVS 支持的OpenFlow 協議的版本：ovs-ofctl –version
+
+將port增加到網橋
+Examples
+The following example adds the ge-1/1/1 port to bridge br0:
+
+admin@Switch$ovs-vsctl add-port br0 ge-1/1/1
