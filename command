@@ -81,7 +81,7 @@ ovs查詢設定
 ovs-vsctl list sflow
 
 ovs設定port至指定網橋
-ovs-vsctl -- --id=@sflow create sflow agent=eth0 target=\"交換機的乙太IP位置:6343\" header=128 sampling=10 polling=1 -- set bridge 網橋名字 sflow=@sflow
+ovs-vsctl -- --id=@sflow create sFlow agent=eth0 target=\"192.168.1.5:6343\" header=128 sampling=10 polling=1 -- set bridge 網橋名字 sflow=@sflow
 
 # 查詢所有開啟的 TCP 與 UDP 連接埠
 sudo netstat -tulpn | grep LISTEN
