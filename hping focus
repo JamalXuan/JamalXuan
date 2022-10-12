@@ -14,3 +14,13 @@ hping 192.168.2.3 -i u1000000 -S -F -a 偽造IP
 (b)X'mas
 hping 192.168.2. -i u1000000 -F -S -R -P -A -U -a 偽造IP
 hping 192.168.2.3 -i u1000000 -F -S -R -P -A -U -a 偽造IP
+
+偽造IP的UDP封包
+hping 192.168.2.2 -i u1000000 -2 -a 偽造IP
+hping 192.168.2.3 -i u1000000 -2 -a 偽造IP
+
+偽造IP內涵CodeRed封包
+hping 192.168.2.2 -i u1000000 -d[封包datasize] -E[filename] -a [偽造IP]
+
+使用TCP SYN掃描
+hping3 -scan known -S 192.168.1.1
