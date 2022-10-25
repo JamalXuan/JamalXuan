@@ -59,33 +59,6 @@ setFlow('sflow-test-icmp',{keys:'ipsource,ipdestination,icmptype,icmpseqno',valu
 var featureMetrics = [
   {key:'host_name', descr: 'Host name'},
   {key:'ifname', descr: 'Port name'},
-  {key:'load_one', descr: 'CPU load average'},
-  {key:'cpu_idle', descr: 'CPU utilization'},
-  {key:'cpu_5sec', descr: 'CPU utilization (struct processor)'},
-  {key:'mem_free', descr: 'Memory utilization'},
-  {key:'agg_actorsystemid', descr:'LAG-MIB dot3adAggPortActorSystemID'},
-  {key:'agg_attachedaggid', descr:'LAG-MIB dot3adAggPortAttachedAggID'},
-  {key:'agg_partneropersystemid', descr:'LAG-MIB dot3adAggPortPartnerOperSystemID'},
-  {key:'opt_module_id', descr:'Optical module ID'},
-  {key:'opt_module_lanes', descr:'Optical module lanes'}
-];
-var featureRecs = [
-  {key:'inputifindex',missing:'0',descr:'Ingress ifIndex'},
-  {key:'outputifindex',missing:'0',descr:'Egress IfIndex'},
-  {key:'vlansource',descr:'Source VLAN'},
-  {key:'vlandestination',descr:'Destination VLAN'},
-  {key:'prioritysource',descr:'Source priority'},
-  {key:'prioritydestination',descr:'Destination priority'},
-  {key:'ipnexthoprouter',descr:'Next-hop router'},
-  {key:'ipsourcemaskbits',descr:'Source address prefix'},
-  {key:'ipdestinationmaskbits',descr:'Destination address prefix'},
-  {key:'bgpnexthop',descr:'BGP next hop'},
-  {key:'bgpas',descr:'BGP AS'},
-  {key:'bgpsourceas',descr:'BGP source AS'},
-  {key:'bgpsourcepeeras',descr:'BGP source peer AS'},
-  {key:'bgpdestinationaspath',descr:'BGP destination AS path'},
-  {key:'bgpcommunities',descr:'BGP communities'},
-  {key:'bgplocalpref',descr:'BGP localpref'}
 ];
 var featureKeys = featureRecs.map(rec => 'null:'+rec.key);
 setFlow('sflow-test-features',{keys:featureKeys,value:'frames',filter:'direction=ingress',log:true,flowStart:true,activeTimeout:10});
