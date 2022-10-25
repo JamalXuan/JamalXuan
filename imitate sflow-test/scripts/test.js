@@ -399,12 +399,6 @@ setHttpHandler(function(req) {
       checkFeatures(tests);
       result.tests = tests;
       break;
-    case 'upload':
-      try { http(submitURL,'post','application/json',JSON.stringify(req.body)); }
-      catch(e) { logWarning('upload failed ' + e); }
-      break;
-    default:
-      throw "not_found";
   }
 
   return result;
