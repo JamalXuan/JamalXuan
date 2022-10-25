@@ -124,7 +124,6 @@ $(function() {
       $('#start').button('option','disabled','none' == data.agent);
       $('#end').button('option','disabled',true);
       $('#print').button('option','disabled',true);
-      $('#upload').button('option','disabled',true);
     }
     $('#agent').selectmenu({
       change:function() {
@@ -135,7 +134,6 @@ $(function() {
         $('#start').button('option','disabled','none'==agent);
         $('#end').button('option','disabled',true);
         $('#print').button('option','disabled',true);
-        $('#upload').button('option','disabled',true);
       }
     });
   });
@@ -209,7 +207,6 @@ $(function() {
     $('#start').button('option','disabled',true);
     $('#end').button('option','disabled',false);
     $('#print').button('option','disabled',true);
-    $('#upload').button('option','disabled',true);
     $.ajax({
       url:startPath,
       success:function() {
@@ -223,7 +220,6 @@ $(function() {
     $('#start').button('option','disabled',false);
     $('#end').button('option','disabled',true);
     $('#print').button('option','disabled',false);
-    $('#upload').button('option','disabled',false);
     $.ajax({
       url:stopPath,
       success: function() {
@@ -232,7 +228,4 @@ $(function() {
     });
   });
   $('#print').button({disabled:true}).click(function() { window.print(); });
-  $('#upload').button({disabled:true}).click(function() {
-    dialog.dialog('open');
-  });
 });
