@@ -96,5 +96,5 @@ ryu-manager --verbose simple_switch_13.py
 輸入：
 sudo su
 mn --topo single,3 --mac \
---switch ovsk,protocols=OpenFlow15 \
---controller remote,ip=172.17.0.2
+--switch ovsk,protocols=OpenFlow13 \
+--controller remote,ip=xxx.xx.xx.x
