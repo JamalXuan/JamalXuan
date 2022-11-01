@@ -85,3 +85,16 @@ ovs-vsctl -- --id=@sflow create sFlow agent=eth0 target=\"192.168.1.5:6343\" hea
 
 # 查詢所有開啟的 TCP 與 UDP 連接埠
 sudo netstat -tulpn | grep LISTEN
+
+
+執行控制
+service ssh start
+ssh -X xuan@xxx.xx.xx.x
+cd ryu/ryu/app
+ryu-manager --verbose simple_switch_13.py
+另開terminal
+輸入：
+sudo su
+mn --topo single,3 --mac \
+--switch ovsk,protocols=OpenFlow15 \
+--controller remote,ip=172.17.0.2
