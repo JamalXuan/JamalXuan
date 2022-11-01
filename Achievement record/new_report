@@ -1,0 +1,3 @@
+sudo apt install mmh
+sudo apt install nmh
+sudo apt install mailutils-mh
