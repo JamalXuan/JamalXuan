@@ -1,12 +1,12 @@
 from ryu.base import app_manager
-from ryu.ofproto import ofproto_v1_5
+from ryu.ofproto import ofproto_v1_3
 from ryu.controller.handler import set_ev_cls
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller import ofp_event
-from ryu.ofproto import ofproto_v1_5_parser
+from ryu.ofproto import ofproto_v1_3_parser
  
 class MyRyu(app_manager.RyuApp):
-    OFP_VERSIONS = [ofproto_v1_5.OFP_VERSION]
+    OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
     normal_port = []
  
     def __init__(self, *args, **kwargs):
