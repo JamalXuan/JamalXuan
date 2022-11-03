@@ -86,7 +86,7 @@ ovs-vsctl -- --id=@sflow create sFlow agent=eth0 target=\"192.168.1.5:6343\" hea
 # 查詢所有開啟的 TCP 與 UDP 連接埠
 sudo netstat -tulpn | grep LISTEN
 
-
+"""
 執行控制
 service ssh start
 ssh -X xuan@xxx.xx.xx.x
@@ -98,3 +98,8 @@ sudo su
 mn --topo single,3 --mac \
 --switch ovsk,protocols=OpenFlow13 \
 --controller remote,ip=xxx.xx.xx.x
+(mininet模擬)
+"""
+
+文章擷取：
+ryu-manager --verbose --ofp-tcp-listen-port 6633
