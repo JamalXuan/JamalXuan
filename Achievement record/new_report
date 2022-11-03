@@ -1,3 +1,7 @@
+(暫時)
 sudo apt install mmh
 sudo apt install nmh
 sudo apt install mailutils-mh
+
+(報告要寫的)
+ovs-ofctl snoop ovs-bridge
