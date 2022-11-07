@@ -56,5 +56,19 @@ class MyRyu(app_manager.RyuApp):
  
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,actions)]
  
-        mod = parser.OFPFlowMod(datapath=datapath, priority=priority, command=ofproto.OFPFC_ADD, match=match, instructions=inst)
+        mod = parser.OFPFlowMod(
+         cookie=0,
+         cookie_mask=0,
+         table_id=0,
+         command=datapath.ofproto.OFPFC_ADD,
+         idle_timeout=0,
+         hard_timeout=0,
+         out_port=datapath.ofproto.OFPP_ANY,
+         out_group=datapath.ofproto.OFPG_ANY,
+         datapath=datapath, 
+         priority=priority, 
+         command=ofproto.OFPFC_ADD, 
+         match=match, 
+         instructions=inst)
         datapath.send_msg(mod)
+   
