@@ -62,5 +62,8 @@ class MyRyu(app_manager.RyuApp):
          command=ofproto.OFPFC_ADD, 
          match=match, 
          instructions=inst)
-        datapath.send_msg(mod)
-   
+        
+   if buffer_id:
+      mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
+                              match=match,instructions=inst)
+     datapath.send_msg(mod)
