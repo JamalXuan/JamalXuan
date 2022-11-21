@@ -90,4 +90,7 @@ class MyRyu(app_manager.RyuApp):
                                math,inst)
     datapath.send_msg(req)
    
-   
+  tcp_match = parser.OFPMatch(in_port, eth_dst=dst, ip_proto=6)
+  self.add_flow(datapath,2,tcp_match,tcp_actions)
+  nontcp_match = parser.OFPMatch(in_port=in_port,eth_dst=dst)
+  self.add_flow(datapath,1,nontcp_match,nontcp_actions)
