@@ -23,6 +23,8 @@ class MyRyu(app_manager.RyuApp):
         ofp_parser = datapath.ofproto_parser
         req = ofp_parser.OFPPortStatsRequest(datapath, 0, ofp.OFPP_ANY)
         datapath.send_msg(req)
+       
+    def 
  
  
     @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
@@ -43,9 +45,18 @@ class MyRyu(app_manager.RyuApp):
             self.add_flow(datapath, 0, match, actions)
  
             # port A to port B
-            match = parser.OFPMatch(in_port=self.normal_port[1])
+            match = parser.OFPMatch(in_port=self.normal_port[1],
+                                   eth_type=0x0800,
+                                   ipv6_src=('00:50:c5:00:00:a3')
+                                   ipv6_dst=('00:50:c5:00:00:d8'))
             actions = [parser.OFPActionOutput(self.normal_port[0])]
             self.add_flow(datapath, 0, match, actions)
+     
+        stats = parser.OFPStats(
+                                packet_count=200,
+                                duration=(200, 300)
+        if duration in stats:
+                print stats[duration]
  
         # clear port record after add flow entry
         self.normal_port = []
@@ -56,5 +67,9 @@ class MyRyu(app_manager.RyuApp):
  
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,actions)]
  
-        mod = parser.OFPFlowMod(datapath=datapath, priority=priority, command=ofproto.OFPFC_ADD, match=match, instructions=inst)
+        mod = parser.OFPFlowMod(datapath=datapath, 
+                                priority=priority, 
+                                command=ofproto.OFPFC_ADD, 
+                                match=match, 
+                                instructions=inst)
         datapath.send_msg(mod)
