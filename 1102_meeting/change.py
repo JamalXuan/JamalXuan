@@ -1,12 +1,12 @@
 from ryu.base import app_manager
-from ryu.ofproto import ofproto_v1_3
+from ryu.ofproto import ofproto_v1_5
 from ryu.controller.handler import set_ev_cls
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller import ofp_event
-from ryu.ofproto import ofproto_v1_3_parser
+from ryu.ofproto import ofproto_v1_5_parser
  
 class MyRyu(app_manager.RyuApp):
-    OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
+    OFP_VERSIONS = [ofproto_v1_5.OFP_VERSION]
     normal_port = []
  
     def __init__(self, *args, **kwargs):
@@ -56,41 +56,5 @@ class MyRyu(app_manager.RyuApp):
  
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,actions)]
  
-        mod = parser.OFPFlowMod(
-         datapath=datapath, 
-         priority=priority, 
-         command=ofproto.OFPFC_ADD, 
-         match=match, 
-         instructions=inst)
-        
-   if buffer_id:
-      mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
-                              match=match,instructions=inst)
-     datapath.send_msg(mod)
-     
-   def send_flow_mod(self,datapath):
-    ofp = datapath.ofproto
-    ofp_parser = datapath.ofproto_parser
-    
-    cookie = cookie_mask = 0
-    table_id = 0
-    idle_timeout = hard_timeout = 0
-    priority = 32768
-    buffer_id = ofp.OFP_NO_BUFFER
-    match = ofp_parser.OFPMatch(in_port=1, eth_dst='xx:xx:xx:xx:xx:xx')
-    actions = [ofp_parser.OFPActionOutput(ofp.OFPP_NORMAL,0)]
-    inst = [ofp_parser.OFPInstructionActions(ofp.OFPIT_APPLY_ACTIONS,
-                                             actions)]
-    req = ofp_parser.OFPlowMod(datapath,cookie,cookie_mask,
-                               table_id, ofp.OFPFC_ADD,
-                               idle_timeout,hard_timeout,
-                               priotity,buffer_id,
-                               ofp.OFPP_ANY, ofp.OFPG_ANY,
-                               ofp.OFPFF_SEND_FLOW_REM,
-                               math,inst)
-    datapath.send_msg(req)
-   
-  tcp_match = parser.OFPMatch(in_port, eth_dst=dst, ip_proto=6)
-  self.add_flow(datapath,2,tcp_match,tcp_actions)
-  nontcp_match = parser.OFPMatch(in_port=in_port,eth_dst=dst)
-  self.add_flow(datapath,1,nontcp_match,nontcp_actions)
+        mod = parser.OFPFlowMod(datapath=datapath, priority=priority, command=ofproto.OFPFC_ADD, match=match, instructions=inst)
+        datapath.send_msg(mod)
