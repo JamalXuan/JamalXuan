@@ -24,9 +24,6 @@ class MyRyu(app_manager.RyuApp):
         req = ofp_parser.OFPPortStatsRequest(datapath, 0, ofp.OFPP_ANY)
         datapath.send_msg(req)
        
-    def 
- 
- 
     @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
     def port_stats_reply_handler(self, ev):
         msg = ev.msg
