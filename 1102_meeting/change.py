@@ -23,7 +23,40 @@ class MyRyu(app_manager.RyuApp):
         ofp_parser = datapath.ofproto_parser
         req = ofp_parser.OFPPortStatsRequest(datapath, 0, ofp.OFPP_ANY)
         datapath.send_msg(req)
-       
+    
+    #def send_flow_stats_request(self,datapath):
+        ofp = datapath.ofproto
+        ofp_parser = datapath.ofproto_parser
+        
+        cookie = cookie_mask = 0
+        match = ofp_parser.OFPMatch(in_port=normal)
+        req = ofp_parser.OFPFlowStatsRequest(datapath,0,
+                                             ofp.OFPTT_ALL,
+                                             ofp.OFPP_ANY,
+                                             ofp.OFPG_ANY,
+                                             cookie,
+                                             cookie_mask,
+                                             match)
+        #datapath.send_masg(req)
+
+    #@set_ev_cls(ofp_event.EventOFPFlowStatsReply, MAIN_DISPATCHER)
+    def flow_stats_reply_handler(self,ev):
+        flows = []
+        for stat in ev.msg.body:
+            flows.append('table_id=%s'
+                         'duration_sec=%d duration_nsec=%d'
+                         'priority=%d'
+                         'idle_timeout=%d hard_timeout=%d floags=0x%04x'
+                         'cookie=%d packet_count=%d byte_count=%d'
+                         'match=%s instructions=%s' %
+                         (stat.table_id,
+                          stat.duration_sec, stat.duration_nsec,
+                          stat.priority,
+                          stat.idle_timeout, stat.hard_timeout, stat.flags,
+                          stat.cookie, stat.packet_count, stat.byte_count,
+                          stat.match, stat.instructions))
+         #self.logger.debug('FlowStats: %s',flows)
+
     @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
     def port_stats_reply_handler(self, ev):
         msg = ev.msg
@@ -57,7 +90,7 @@ class MyRyu(app_manager.RyuApp):
  
         # clear port record after add flow entry
         self.normal_port = []
- 
+    
     def add_flow(self, datapath, priority, match, actions):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
