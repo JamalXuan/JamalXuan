@@ -49,12 +49,6 @@ class MyRyu(app_manager.RyuApp):
                                    ipv6_dst=('00:50:c5:00:00:d8'))
             actions = [parser.OFPActionOutput(self.normal_port[0])]
             self.add_flow(datapath, 0, match, actions)
-     
-        stats = parser.OFPStats(
-                                packet_count=200,
-                                duration=(200, 300)
-        if duration in stats:
-                print stats[duration]
  
         # clear port record after add flow entry
         self.normal_port = []
