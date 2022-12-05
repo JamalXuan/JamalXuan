@@ -78,8 +78,25 @@ class MyProject(app_manager.RryuApp):
       dpid = datapath.id
       #交換機的數據路徑ID(獨一無二的ID)
       
+      #如果MAC表內不曾儲存過這個交換機的MAC，則幫他新增一個預設值
+      #ex. mac_to_port = {'1':{'xx:xx:xx:xx:xx:xx':2}}
+      #但目前dpid為2不存在，執行後mac_to_port會變成
+      #    mac_to_port = {'1':{'xx:xx:xx:xx:xx:xx':'2':{}}
       
+      self.mac_to_port.setdefault(dpid,{})
       
+      self.logger.info("packet in %s %s %s %s", dpid , src , dst , in_port)
+      #在監聽視窗會顯示的訊息
+      
+      self.mac_to_port[dpid][src] = in_port
+      #我們擁有來源端MAC與in_port了，因此可以學習到src MAC要往in_port送
+      
+      #如果目的端MAC在mac_to_port表中的話，就直接告訴交換機送到out_port(解釋96~99行)
+      #否則就請交換機用Flooding送出去(解釋96~99行)
+      if dst in self.mac_to_port[dpid]:
+            out_port = self.mac_to_port[dpid][dst]
+      else:
+            out_port = ofproto.OFPP_FLOOD
       
       
       
