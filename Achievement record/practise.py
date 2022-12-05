@@ -3,9 +3,9 @@ from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
       #通訊協定版本
 from ryu.controller.handler import set_ev_cls
-      #控制端-設置
+      #指定事件類別得以接受訊息和交換器狀態作為參數
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPTCHER
-      #接收SwitchFeatures訊息,一般狀態
+      #接收交換機特徵訊息,一般狀態
 from ryu.controller import ofp_event
       #控制端-事件產生
 from ryu.ofproto import ofproto_v1_3_parser
@@ -23,8 +23,19 @@ class MyProject(app_manager.RryuApp):
            #連線位置對應連接埠
 
     def switch_features_handler(self,ev):
-           #交換機狀態
       datapath = ev.msg.datapath
+            #數據路徑 = 交換機送來的消息
       ofproto = datapath.ofproto
+            #通訊協定 = 數據路徑(從通訊協定管道來的)
       parser = datapath.ofproto_parser
+            #解析 = 數據路徑(解析來自通訊協定管道)
+      match = parser.OFPMatch()
+            #匹配 = 解析(來自通訊協管道的匹配)
+      actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
+                                        ofproto.OFPCML_NO_BUFFER)]      
+            #actions = 解析通訊協定管道所輸出的動作(將通訊協定管道的訊息傳送至控制端,形成緩衝)
+      
+      
+      
+      
       
