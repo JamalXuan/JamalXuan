@@ -34,6 +34,23 @@ class MyProject(app_manager.RryuApp):
       actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
                                         ofproto.OFPCML_NO_BUFFER)]      
             #actions = 解析通訊協定管道所輸出的動作(將通訊協定管道的訊息傳送至控制端,形成緩衝)
+      self.add_flow(datapath , 0 , match , actions)
+            # 將Table-Miss FlowEntry 設定至交換機，並指定優先權為0(最低) PS：數字越大優先權越高
+    def add_flow(self , datapath , priority , match , actions):
+            #取得與交換機使用的IF版本對應的通訊協定版本及解析
+      ofproto = datapath.ofproto
+            #同29行      
+      parser = datapath.ofproto_parser
+            #同31行
+      
+      inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
+                                           actions)]
+            #Instruction定義當封包滿足匹配時
+      
+      
+      
+      
+      
       
       
       
