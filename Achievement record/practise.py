@@ -98,5 +98,23 @@ class MyProject(app_manager.RryuApp):
       else:
             out_port = ofproto.OFPP_FLOOD
       
+      actions = [parser.OFPActionOutput(out_port)]
+            #把剛剛的out_port做成這次封包處理動作
       
+      if out_port !=ofproto.OFPP_FLOOD:
+            match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
+            self.add_flow(datapath, 1 , match , actions)
+      data = None
+            #如果沒有讓switch flooding，表示目的端mac有學習過(解釋第104~107行)
+            #因此使用add_flow 讓交換機新增 Flow Entry 學習此筆規則(解釋第104~107行)
       
+      if msg.buffer_id == ofproto.OFP_NO_BUFFER:
+            data = msg.data
+            
+      out = parser.OFPPacketOut(datapath=datapath,
+                                buffer_id=msg.buffer_id,
+                                in_port=in_port,
+                                actions=actions,
+                                data=data)
+      datapath.send_msg(out)
+            #把要交換機執行的動作包裝成Packet_out，並讓交換機執行動作
