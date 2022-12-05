@@ -43,9 +43,9 @@ class MyProject(app_manager.RryuApp):
     def add_flow(self , datapath , priority , match , actions):
             #取得與交換機使用的IF版本對應的通訊協定版本及解析
       ofproto = datapath.ofproto
-            #同29行      
+            #通訊協定 = 數據路徑(從通訊協定管道來的)      
       parser = datapath.ofproto_parser
-            #同31行
+            #解析 = 數據路徑(解析來自通訊協定管道)
       
       inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
                                            actions)]
