@@ -57,8 +57,16 @@ class MyProject(app_manager.RryuApp):
             #將制定好的Flow Entry 送給交換機
       
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
+            #制定封包進入通訊協定管道，一般狀態
     def _packet_in_handler(self,ev):
-    
+            #收到來自交換機不知道如何處理的封包(匹配到Table-Miss FlowEntry)
+      msg = ev.msg
+      datapath = msg.datapath.ofproto
+      parser = datapath.ofproto
+      
+      in_port = msg.match['in_port']
+            #in_port 相當於封包從交換機的哪個連接埠進到交換機
+            #同時也代表source Host MAC要往in_port送，才能送達
       
       
       
