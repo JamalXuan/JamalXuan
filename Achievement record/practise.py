@@ -52,7 +52,7 @@ class MyProject(app_manager.RryuApp):
             #Instruction定義當封包滿足匹配時接下來要執行的動作
             #所以將Action以OFPInstructionActions包起來
       
-      #FlowMod Function可以讓我們對交換機寫入我制定的Flow Entry(解釋第52~55行)
+      #FlowMod Function可以讓我們對交換機寫入我制定的Flow Entry(解釋第56~59行)
       mod = parser.OFPFlowMod(datapath=datapath,
                               priority=priority,
                               match=match,
@@ -96,7 +96,7 @@ class MyProject(app_manager.RryuApp):
       #我們擁有來源端MAC與in_port了，因此可以學習到src MAC要往in_port送
       
       #如果目的端MAC在mac_to_port表中的話，就直接告訴交換機送到out_port(解釋96~99行)
-      #否則就請交換機用Flooding送出去(解釋96~99行)
+      #否則就請交換機用Flooding送出去(解釋100~103行)
       if dst in self.mac_to_port[dpid]:
             out_port = self.mac_to_port[dpid][dst]
       else:
@@ -109,8 +109,8 @@ class MyProject(app_manager.RryuApp):
             match = parser.OFPMatch(in_port=in_port, eth_dst=dst)
             self.add_flow(datapath, 1 , match , actions)
       data = None
-            #如果沒有讓switch flooding，表示目的端mac有學習過(解釋第104~107行)
-            #因此使用add_flow 讓交換機新增 Flow Entry 學習此筆規則(解釋第104~107行)
+            #如果沒有讓switch flooding，表示目的端mac有學習過(解釋第108~111行)
+            #因此使用add_flow 讓交換機新增 Flow Entry 學習此筆規則(解釋第108~111行)
       
       if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
@@ -121,4 +121,4 @@ class MyProject(app_manager.RryuApp):
                                 actions=actions,
                                 data=data)
       datapath.send_msg(out)
-            #把要交換機執行的動作包裝成Packet_out，並讓交換機執行動作
+            #把要交換機執行的動作包裝成Packet_out，並讓交換機執行動作(解釋第118~122行)
