@@ -67,8 +67,16 @@ class MyProject(app_manager.RryuApp):
       in_port = msg.match['in_port']
             #in_port 相當於封包從交換機的哪個連接埠進到交換機
             #同時也代表source Host MAC要往in_port送，才能送達
+      pkt = packet.Packet(msg.data)
+      eth = pkt.get_protocols(ethernet.ethernet)[0]
       
+      dst = eth.dst
+      #得到封包目的端 MAC address
+      src = eth.src
+      #得到封包來源端 MAC address
       
+      dpid = datapath.id
+      #交換機的數據路徑ID(獨一無二的ID)
       
       
       
