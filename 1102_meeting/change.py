@@ -56,17 +56,10 @@ class MyRyu(app_manager.RyuApp):
  
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,actions)]
         
-        if buffer_id:
         mod = parser.OFPFlowMod(datapath=datapath,
                                 buffer_id=buffer_id,
                                 priority=priority,
                                 match=match,
                                 instructions=inst)
  
-    else:
-        mod = parser.OFPFlowMod(datapath=datapath, 
-                                priority=priority, 
-                                command=ofproto.OFPFC_ADD, 
-                                match=match, 
-                                instructions=inst)
         datapath.send_msg(mod)
