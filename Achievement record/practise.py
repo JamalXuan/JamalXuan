@@ -21,7 +21,7 @@ class MyProject(app_manager.RryuApp):
         super(MyProject).__init__(*args, **kwargs)
         self.mac_to_port = {}
            #連線位置對應連接埠
-
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self,ev):
       datapath = ev.msg.datapath
             #數據路徑 = 交換機送來的消息
@@ -45,9 +45,20 @@ class MyProject(app_manager.RryuApp):
       
       inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
                                            actions)]
-            #Instruction定義當封包滿足匹配時
+            #Instruction定義當封包滿足匹配時接下來要執行的動作
+            #所以將Action以OFPInstructionActions包起來
       
+      #FlowMod Function可以讓我們對交換機寫入我制定的Flow Entry(解釋第52~55行)
+      mod = parser.OFPFlowMod(datapath=datapath,
+                              priority=priority,
+                              match=match,
+                              instructions=inst)
+      datapath.send_msg(mod)
+            #將制定好的Flow Entry 送給交換機
       
+    @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
+    def _packet_in_handler(self,ev):
+    
       
       
       
