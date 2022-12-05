@@ -10,7 +10,11 @@ from ryu.controller import ofp_event
       #控制端-事件產生
 from ryu.ofproto import ofproto_v1_3_parser
       #解析通訊協定訊息
-
+from ryu.lib.packet import packet
+      #封包
+from ryu.lib.packet import ethernet
+      #乙太網路
+      
 class MyProject(app_manager.RryuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
           #通訊協定版本
