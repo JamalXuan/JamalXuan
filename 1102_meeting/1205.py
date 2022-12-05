@@ -58,3 +58,30 @@ class MyRyu(app_manager.RyuApp):
  
         mod = parser.OFPFlowMod(datapath=datapath, priority=priority, command=ofproto.OFPFC_ADD, match=match, instructions=inst)
         datapath.send_msg(mod)
+   
+   def send_flow_mod(self, datapath):
+        ofproto = datapath.ofproto
+        ofp_parser = datapath.ofproto_parser
+      
+        cookie = cookie_mask = 0
+        table_id = 0
+        idle_timeout = hard_timeout = 0
+        priority = 1
+        buffer_id = ofp.OFP_NO_BUFFER
+        match = ofp_parser.OFPMatch(in_port=1,eth_dst='00:50:c5:00:00:d8')
+        actions = [ofp_parser.OFPActionOutput(ofp.OFPP_NORMAL,0)]
+        inst = [ofp_parser.OFPInstructionActions(ofp.OFPIT_APPLY_ACTIONS,
+                                                 actions)]
+        req = ofp_parser.OFPFlowMod(datapath,
+                                    cookie,
+                                    cook_mask,
+                                    idle_timeout,
+                                    hard_timeout,
+                                    priority,
+                                    buffer_id,
+                                    ofp.OFPP_ANY,
+                                    ofp.OFPG_ANY,
+                                    ofp.OFPFF_SEND_FLOW_REM,
+                                    match,
+                                    inst)
+        datapath.send_msg(req)
