@@ -74,7 +74,7 @@ class MyRyu(app_manager.RyuApp):
                                                  actions)]
         req = ofp_parser.OFPFlowMod(datapath,
                                     cookie,
-                                    cook_mask,
+                                    cookie_mask,
                                     idle_timeout,
                                     hard_timeout,
                                     priority,
