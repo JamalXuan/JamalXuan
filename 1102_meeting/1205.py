@@ -5,12 +5,12 @@ from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller import ofp_event
 from ryu.ofproto import ofproto_v1_3_parser
  
-class MyRyu(app_manager.RyuApp):
+class MyProject(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
     normal_port = []
  
     def __init__(self, *args, **kwargs):
-        super(MyRyu, self).__init__(*args, **kwargs)
+        super(MyProject, self).__init__(*args, **kwargs)
  
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
