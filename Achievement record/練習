@@ -1,0 +1,46 @@
+from ryu.base import app_manager
+from ryu.ofproto import ofproto_v1_3
+from ryu.controller.handler import set_ev_cls
+from ryu.controller.handler import CONFIG_DISPATHER,MAIN_DISPTCHER
+from ryu.controller import ofp_event
+from ryu.ofproto impoert ofproto_v1_3_parser
+from ryu.lib.packet import packet
+from ryu.lib.packet import ethernet
+
+class MyProject(app_manager.RyuApp):
+    OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
+    normal_port = []
+    
+    def __init__(self, *args, **kwargs):
+        super(MyProject).__intit__(*args, **kwargs)
+        self.mac_to_port = {}
+        
+    @set_ev_cls(ofp_event.EventOFPSWitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        datapath = ev.msg.datapath
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+        match = parser.OFPMatch()
+        actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
+                                          ofproto.OFPCML_NO_BUFFER)]
+        self.add_flow(datapath, 0 , match , actions)
+        
+     def send_flow_mod(self,ddatapath):
+         ofp = datapath.ofproto
+         ofp_parser = datapath.ofproto_parser
+         
+         table_id = 1
+         priority = 0
+         buffer_id = ofp.OFP_NO_BUFFER
+         match = ofp_parser.OFPMatch(in_port=1,eth_dst='')
+         actions = [ofp_parser.OFPInstructionActions(ofp.OFPP_NORMAL,0)]
+         inst = ofp_parser.OFPInstructionActions(ofp.OFPIT_APPLY_ACTIONS,
+                                                 actions)]
+         req = ofp_parser.OFPFlowMod(datapath,table_id,ofp.OFPFC_ADD,priority,
+                                     buffer_id,
+                                     ofp.OFPP_ANY,
+                                     ofp.OFPG_ANY,
+                                     ofp.OFPFF_SEND_FLOW_REM,
+                                     match,inst)
+         datapath.send_msg(req)
+    
