@@ -3,7 +3,7 @@ from ryu.ofproto import ofproto_v1_3
 from ryu.controller.handler import set_ev_cls
 from ryu.controller.handler import CONFIG_DISPATCHER,MAIN_DISPTCHER
 from ryu.controller import ofp_event
-from ryu.ofproto impoert ofproto_v1_3_parser
+from ryu.ofproto import ofproto_v1_3_parser
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
 
