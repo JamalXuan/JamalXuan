@@ -12,7 +12,7 @@ class MyProject(app_manager.RyuApp):
     normal_port = []
     
     def __init__(self, *args, **kwargs):
-        super(MyProject).__intit__(*args, **kwargs)
+        super(MyProject).__init__(*args, **kwargs)
         self.mac_to_port = {}
         
     @set_ev_cls(ofp_event.EventOFPSWitchFeatures, CONFIG_DISPATCHER)
