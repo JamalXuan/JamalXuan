@@ -77,3 +77,80 @@ class Jamal(app_manager.RyuApp):
                 in_port = msg.match['in_port']
 
                 pkt = packet.Packet(msg.data)
+                eth = pkt.get_protocols(ethernet.ethernet)[0]
+
+                if eth.ethertype == ether_type.ETH_TYPE_LLDP:
+                        return
+                dst = eth.dst
+                src = eth.src
+
+                dpid = format(datapath.id, "d").zfill(16)
+                self.mac_to_port.setfault(dpid, {})
+                self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_po$
+                self.mac_to_port[dpid][src] = in_port
+
+                if dst in self.mac_to_port[dpid]:
+                        out_port = self.mac_to_port[dpid][dst]
+                else:
+                        out_port = ofproto.OFPP_FLOOD
+
+                actions = [parser.OFPActionOutput(out_port)]
+
+                if out_port != ofproto.OFPP_FLOOD:
+                        match = parser.OFPMatch(in_port=in_port , eth_dst=dst ,$
+
+                        if msg.buffer_id != ofproto.OFP_NO_BUFFER:
+                                self.add_flow(datapath , 1 , match , actions , $
+                                return
+                        else:
+                                self.add_flow(datapath , 1 , match , actions)
+                data = None
+                if msg.buffer_id == ofproto.OFP_NO_BUFFER:
+                        data = msg.data
+
+                out = parser.OFPPacketOut(datapath=datapath,buffer_id=msg.buffe$
+                                          in_port=in_port,actions=actions,data=$
+                datapath.send_msg(out)
+
+        def send_flow_mod(self,datapath):
+                ofproto = datapath.ofproto
+                parser = datapath.ofproto_parser
+                table_id = 2
+                priority = 11
+                buffer_id = ofproto.OFP_NO_BUFFER
+                match = parser.OFPMatch(in_port=1,eth_dst='00:50:c5:00:00:a3')
+                actions = [parser.OFPActionOutput(ofproto.OFPP_NORMAL,0)]
+                inst = [parser.OFPInstructionActions(ofp.OFPIT_APPLY_ACTIONS,
+                                                     actions)]
+                req = ofp_parser.OFPFlowMod(datapath,table_id,ofp.OFPFC_ADD,pri$
+                                            buffer_id,ofp.OFPP_ANY,ofp.OFPG_ANY,
+                                            ofp.OFPFF_SEND_FLOW_REM,match,inst)
+                datapath.send_msg(req)
+
+        def _handle_arp(self,datapath,port,pkt_ethernet,pkt_arp):
+                if pkt_arp.opcode != arp.ARP_REQUEST:
+                        return
+                pkt = packet.Packet.Packet()
+                pkt.add_protocol(ethernet.ethernet(ethertype=pkt_ethernet.ether$
+                                 dst=pkt_ethernet.src,
+                                 src=self.hw_addr))
+                pkt.add_protocol(ipv4.ipv4(dst=pkt_ipv4.src,src=self.hw_addr,
+                                 proto=pkt_ipv4.proto))
+                pkt.add_protocol(icmp.icmp(type_=icmp.ICMP_ECHO_REPLY,
+                                 code=icmp.ICMP_ECHO_REPLY_CODE,
+                                 csum=0,data=pkt_icmp_icmp.data))
+                self._send_packet(datapath,port,pkt)
+
+        def _send_packet(self,datapath,port,pkt):
+                ofproto = datapath.ofproto
+                parser = datapath.ofproto_parser
+                pkt.serialize()
+                self.logger.info("packet-out %s" % (pkt,))
+                data = pkt.data
+                actions = [parser.OFPActionOutput(port=port)]
+                out = parser.OFPPacketOut(datapath=datapath,
+                                          buffer_id=ofproto.OFP_NO_BUFFER,
+                                          in_port=ofproto.OFPP_CONTROLLER,
+                                          actions=actions,data=data)
+                datapath.send_msg(out)
+
