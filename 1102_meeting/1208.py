@@ -28,8 +28,8 @@ class Jamal(app_manager.RyuApp):
                 parser = datapath.ofproto_parser
                 match = parser.OFPMatch()
                 actions = [parser.OFPActionOutput(port=ofproto.OFPP_CONTROLLER,
-                                                  max_len=ofproto.OFPCML_NO_BUF$
-                inst = [parser.OFPInstructionActions(type_=ofproto.OFPIT_APPLY_$
+                                                  max_len=ofproto.OFPCML_NO_BUFFER)]
+                inst = [parser.OFPInstructionActions(type_=ofproto.OFPIT_APPLY_ACTIONS,
                                                       actions=actions)]
                 self.send_port_stats_request(datapath)
                 mod = parser.OFPFlowMod(datapath=datapath,
@@ -41,7 +41,7 @@ class Jamal(app_manager.RyuApp):
         def send_port_stats_request(self,datapath):
                 ofproto = datapath.ofproto
                 ofp_parser = datapath.ofproto_parser
-                req = ofp_parser.OFPPortSftatsRequest(datapath, 0 , ofp.OFPP_AN$
+                req = ofp_parser.OFPPortSftatsRequest(datapath, 0 , ofp.OFPP_ANY)
                 datapath.send_msg(req)
 
         @set_ev_cls(ofp_event.EventOFPPortStatsReply,MAIN_DISPATCHER)
@@ -68,7 +68,7 @@ class Jamal(app_manager.RyuApp):
         @set_ev_cls(ofp_event.EventOFPPacketIn,MAIN_DISPATCHER)
         def _packet_in_handler(self, ev):
                 if ev.msg.msg_len < ev.msg.total_len:
-                        self.logger.debug("packet truncated: only %s of %s byte$
+                        self.logger.debug("packet truncated: only %s of %s bytes",
                                           ev.msg.msg_len, ev.msg.total_len)
                 msg = ev.msg
                 datapath = msg.datapath
@@ -86,7 +86,7 @@ class Jamal(app_manager.RyuApp):
 
                 dpid = format(datapath.id, "d").zfill(16)
                 self.mac_to_port.setfault(dpid, {})
-                self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_po$
+                self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_port)
                 self.mac_to_port[dpid][src] = in_port
 
                 if dst in self.mac_to_port[dpid]:
@@ -97,10 +97,10 @@ class Jamal(app_manager.RyuApp):
                 actions = [parser.OFPActionOutput(out_port)]
 
                 if out_port != ofproto.OFPP_FLOOD:
-                        match = parser.OFPMatch(in_port=in_port , eth_dst=dst ,$
+                        match = parser.OFPMatch(in_port=in_port , eth_dst=dst ,eth_src=src)
 
                         if msg.buffer_id != ofproto.OFP_NO_BUFFER:
-                                self.add_flow(datapath , 1 , match , actions , $
+                                self.add_flow(datapath , 1 , match , actions , msg.buffer_id)
                                 return
                         else:
                                 self.add_flow(datapath , 1 , match , actions)
@@ -108,8 +108,8 @@ class Jamal(app_manager.RyuApp):
                 if msg.buffer_id == ofproto.OFP_NO_BUFFER:
                         data = msg.data
 
-                out = parser.OFPPacketOut(datapath=datapath,buffer_id=msg.buffe$
-                                          in_port=in_port,actions=actions,data=$
+                out = parser.OFPPacketOut(datapath=datapath,buffer_id=msg.buffer_id,
+                                          in_port=in_port,actions=actions,data=data)
                 datapath.send_msg(out)
 
         def send_flow_mod(self,datapath):
@@ -122,7 +122,7 @@ class Jamal(app_manager.RyuApp):
                 actions = [parser.OFPActionOutput(ofproto.OFPP_NORMAL,0)]
                 inst = [parser.OFPInstructionActions(ofp.OFPIT_APPLY_ACTIONS,
                                                      actions)]
-                req = ofp_parser.OFPFlowMod(datapath,table_id,ofp.OFPFC_ADD,pri$
+                req = ofp_parser.OFPFlowMod(datapath,table_id,ofp.OFPFC_ADD,priority,
                                             buffer_id,ofp.OFPP_ANY,ofp.OFPG_ANY,
                                             ofp.OFPFF_SEND_FLOW_REM,match,inst)
                 datapath.send_msg(req)
@@ -131,7 +131,7 @@ class Jamal(app_manager.RyuApp):
                 if pkt_arp.opcode != arp.ARP_REQUEST:
                         return
                 pkt = packet.Packet.Packet()
-                pkt.add_protocol(ethernet.ethernet(ethertype=pkt_ethernet.ether$
+                pkt.add_protocol(ethernet.ethernet(ethertype=pkt_ethernet.ethertype,
                                  dst=pkt_ethernet.src,
                                  src=self.hw_addr))
                 pkt.add_protocol(ipv4.ipv4(dst=pkt_ipv4.src,src=self.hw_addr,
