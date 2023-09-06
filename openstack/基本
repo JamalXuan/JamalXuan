@@ -1,0 +1,6 @@
+基本架設 私有stack，資料夾回應：
+sudo useradd -s /bin/bash -d /opt/stack -m stack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+
+切換stack模式：
+sudo su - stack
