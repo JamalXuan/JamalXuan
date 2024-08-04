@@ -1,3 +1,7 @@
+預設路由查詢
+route -n
+
+
 查看閘道
 sudo su
 netstat -rn
