@@ -11,3 +11,7 @@ juju cloud
 juju bootstrap localhost overlord
 juju deploy hello-juju
 watch -tc -n20 juju status --color
+
+juju: add a database
+juju add-model openstack
+
