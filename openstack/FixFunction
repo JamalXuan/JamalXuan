@@ -15,3 +15,10 @@ watch -tc -n20 juju status --color
 juju: add a database
 juju add-model openstack
 
+
+
+cd /etc/netplan
+ls
+nano 01-network-manager-all.yaml
+
+
