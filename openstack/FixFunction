@@ -7,7 +7,7 @@ sudo snap install juju --classic
 sudo snap install lxd
 lxd init --auto
 lxc network set lxbr0 ipv6.address none
-juju cloud
+juju clouds
 juju bootstrap localhost overlord
 juju deploy hello-juju
 watch -tc -n20 juju status --color
