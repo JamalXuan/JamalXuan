@@ -31,3 +31,6 @@ SERVICE_PASSWORD=$ADMIN_PASSWORD
 HOST_IP=user_IP
 
 ./stack.sh
+
+進入OpenStack：
+http://IP/dashboard
