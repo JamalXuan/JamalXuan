@@ -7,7 +7,6 @@ echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
 sudo apt install net-tools
 sudo apt install git
 sudo apt install vim
-git clone https://git.openstack.org/openstack-dev/devstack
 sudo adduser stack
 sudo adduser -s /bin/bash stack
 sudo adduser -d /opt/stack stack
@@ -16,3 +15,19 @@ sudo chmod +x /opt/stack
 
 切換使用者：
 su - stack
+git clone https://git.openstack.org/openstack-dev/devstack
+
+cd devstack
+vim local.conf
+
+[[local|]]
+#Password for KeyStone,Database,RabbitMQ
+ADMIN_PASSWORD=StrongAdminSecret
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+#Host IP - get your Server/VM IP address from ip addr command
+HOST_IP=user_IP
+
+./stack.sh
