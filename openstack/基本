@@ -34,3 +34,5 @@ HOST_IP=user_IP
 
 進入OpenStack：
 http://IP/dashboard
+帳號：admin
+密碼：StrongAdminSecret
