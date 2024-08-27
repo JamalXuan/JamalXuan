@@ -20,7 +20,7 @@ git clone https://git.openstack.org/openstack-dev/devstack
 cd devstack
 vim local.conf
 
-[[local|]]
+[[local|localrc]]
 #Password for KeyStone,Database,RabbitMQ
 ADMIN_PASSWORD=StrongAdminSecret
 DATABASE_PASSWORD=$ADMIN_PASSWORD
