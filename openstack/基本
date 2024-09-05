@@ -36,3 +36,9 @@ HOST_IP=user_IP
 http://IP/dashboard
 帳號：admin
 密碼：StrongAdminSecret
+
+DNS:
+vim /etc/resolv.conf
+
+gateway:
+route -n
