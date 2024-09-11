@@ -52,6 +52,15 @@ network:
   renderer: NetworkManager
 -------------------------------------------------------------
 
+套用網路配置成品：
+sudo netplan try #等個幾秒後 會提示 請按下Enter完成目前配置
+
+接著將實體網卡的IP位置加到虛擬網卡：
+sudo ip addr add 192.168.35.133/24 dev br-ex
+
+啟用虛擬網卡：
+sudo ip link set br-ex up
+
 DNS查詢:
 vim /etc/resolv.conf
 
