@@ -30,6 +30,28 @@ http://IP/dashboard
 帳號：admin
 密碼：local.conf所設定的密碼
 
+橋接虛擬網卡到實體網卡：
+sudo ovs-vsctl add-port br-ex ens33 #辨別乙太名稱可利用net-tools 查詢
+sudo ip addr flush dev ens33
+
+至實體作業系統中的網路配置做修改 #/etc/netplan/01-network-manager-all.yaml
+修改成品：#須注意縮排
+network:
+  renderer: networkd
+  ethernets:
+    br-ex:
+      dhcp4: no
+      addresses: [192.168.35.133/24]
+      gateway4: 192.168.35.2
+      nameservers:
+        search: []
+        addresses: [8.8.8.8]
+    ens33:
+      dhcp4:no
+  version: 2
+  renderer: NetworkManager
+-------------------------------------------------------------
+
 DNS查詢:
 vim /etc/resolv.conf
 
