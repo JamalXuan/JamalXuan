@@ -1,44 +1,37 @@
-基本架設 私有stack，資料夾回應：
-sudo useradd -s /bin/bash -d /opt/stack -m stack
-echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
-
-
 安裝過程
 sudo apt install net-tools
 sudo apt install git
 sudo apt install vim
-sudo adduser stack
-sudo adduser -s /bin/bash stack
-sudo adduser -d /opt/stack stack
-sudo adduser -M stack
+sudo useradd -s /bin/bash -d /opt/stack -m stack
 sudo chmod +x /opt/stack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+
 
 切換使用者：
-su - stack
-git clone https://git.openstack.org/openstack-dev/devstack
-
+sudo -u stack -i
+git clone https://opendev.org/openstack/devstack
 cd devstack
-vim local.conf
+
+vim local.conf #創立對應的金鑰位置
 
 [[local|localrc]]
 #Password for KeyStone,Database,RabbitMQ
-ADMIN_PASSWORD=StrongAdminSecret
+ADMIN_PASSWORD=自己設定
 DATABASE_PASSWORD=$ADMIN_PASSWORD
 RABBIT_PASSWORD=$ADMIN_PASSWORD
 SERVICE_PASSWORD=$ADMIN_PASSWORD
-
 #Host IP - get your Server/VM IP address from ip addr command
-HOST_IP=user_IP
+HOST_IP=user_IP #可打可不打
 
 ./stack.sh
 
 進入OpenStack：
 http://IP/dashboard
 帳號：admin
-密碼：StrongAdminSecret
+密碼：local.conf所設定的密碼
 
-DNS:
+DNS查詢:
 vim /etc/resolv.conf
 
-gateway:
+gateway查詢:
 route -n
