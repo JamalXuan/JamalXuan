@@ -67,3 +67,6 @@ vim /etc/resolv.conf
 
 gateway查詢:
 route -n
+
+reboot可能出現首頁異常:處理方法
+sudo systemctl restart devstack@*
