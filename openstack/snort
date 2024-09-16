@@ -1,0 +1,142 @@
+sudo dpkg-reconfigure tzdata #選擇地區/所在地時間
+
+mkdir ~/snort_src && cd ~/snort_src #創資料夾
+
+sudo apt-get install build-essential
+sudo apt-get install autotools-dev
+sudo apt-get install libdumbnet-dev
+sudo apt-get install libluajit-5.1-dev
+sudo apt-get install libpcap-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install pkg-config
+sudo apt-get install libhwloc-dev
+sudo apt-get install cmake
+sudo apt-get install liblzma-dev
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install cpputest
+sudo apt-get install libsqlite3-dev
+sudo apt-get install libtool
+sudo apt-get install uuid-dev
+sudo apt-get install autoconf
+sudo apt-get install bison
+sudo apt-get install flex
+sudo apt-get install libcmocka-dev
+sudo apt-get install libnetfilter-queue-dev
+sudo apt-get install libunwind-dev
+sudo apt-get install libmnl-dev
+sudo apt-get install ethtool
+sudo apt-get install libjemalloc-dev
+
+safec：
+cd ~/snort_src
+wget https://github.com/rurban/safeclib/releases/download/v02092020/libsafec-02092020.tar.gz
+tar -xzvf libsafec-02092020.tar.gz
+cd libsafec-02092020.0-g6d921f
+./configure
+make
+sudo make install
+
+pcre：
+cd ~/snort_src
+wget https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
+tar -xzvf pcre-8.45.tar.gz
+cd pcre-8.45
+./configure
+make
+sudo make install
+
+gperftools：
+cd ~/snort_src
+wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.tar.gz
+tar -xzvf gperftools-2.9.1.tar.gz
+cd gperftools-2.9.1
+./configure
+make
+sudo make install
+
+ragel：
+cd ~/snort_src
+wget http://www.colm.net/files/ragel/ragel-6.10.tar.gz
+tar -xzvf ragel-6.10.tar.gz
+cd ragel-6.10
+./configure
+make
+sudo make install
+
+Boost：
+cd ~/snort_src
+wget https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.gz
+tar -xvzf boost_1_77_0.tar.gz
+
+Hyperscan：
+cd ~/snort_src
+wget https://github.com/intel/hyperscan/archive/refs/tags/v5.4.0.tar.gz
+tar -xvzf v5.4.0.tar.gz
+mkdir ~/snort_src/hyperscan-5.4.0-build
+cd hyperscan-5.4.0-build/
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DBOOST_ROOT=~/snort_src/boost_1_77_0/ ../hyperscan-5.4.0
+make
+sudo make install
+
+flatbuffers：
+cd ~/snort_src
+wget https://github.com/google/flatbuffers/archive/refs/tags/v2.0.0.tar.gz -O flatbuffers-v2.0.0.tar.gz
+tar -xzvf flatbuffers-v2.0.0.tar.gz
+mkdir flatbuffers-build
+cd flatbuffers-build
+cmake ../flatbuffers-2.0.0
+make
+sudo make install
+
+DAQ：
+cd ~/snort_src
+wget https://github.com/snort3/libdaq/archive/refs/tags/v3.0.5.tar.gz -O libdaq-3.0.5.tar.gz
+tar -xzvf libdaq-3.0.5.tar.gz
+cd libdaq-3.0.5
+./bootstrap
+./configure
+make
+sudo make install
+
+更新分享庫：
+sudo ldconfig
+
+Snort3：
+cd ~/snort_src
+wget https://github.com/snort3/snort3/archive/refs/tags/3.1.18.0.tar.gz -O snort3-3.1.18.0.tar.gz
+tar -xzvf snort3-3.1.18.0.tar.gz
+cd snort3-3.1.18.0
+./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc --enable-jemalloc
+cd build
+make
+sudo make install
+
+測試安裝是否成功：
+/usr/local/bin/snort -V
+
+測試默認配置文件：
+snort -c /usr/local/etc/snort/snort.lua 
+#正常情況 最後一行顯示" Snort successfully validated the configuration"
+
+配置網卡：
+sudo ethtool -k ens33 | grep receive-offload
+
+創建配置Snort規則的資料夾：
+sudo mkdir /usr/local/etc/rules
+sudo mkdir /usr/local/etc/so_rules/
+sudo mkdir /usr/local/etc/lists/
+sudo touch /usr/local/etc/rules/local.rules
+sudo touch /usr/local/etc/lists/default.blocklist
+sudo mkdir /var/log/snort
+
+創建一條規則：
+sudo vim /usr/local/etc/rules/local.rules
+vim內容：
+alert icmp any any -> any any (msg:"ICMP Traffic Detected"; sid:10000001;metadata:policy security-ips alert;)
+
+加載規則：
+snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules
+
+將接口設定至規則內：
+sudo snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules -i ens33 -A alert_fast -s 65535 -k none
