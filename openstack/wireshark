@@ -1,1 +1,12 @@
+sudo apt-get install wireshark
 
+#檢視使用者群組
+cat /etc/group | grep wireshark
+
+#將主機加入wireshark使用者群組中
+sudo usermod -aG wireshark <username>
+
+#鎖定IP位置，濾除不必要資訊(在wireshark上方輸入條件)
+ip.addr==192.168.48.133 && ssh
+
+#可同時開啟ssh功能
