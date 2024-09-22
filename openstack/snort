@@ -140,3 +140,6 @@ snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules
 
 將接口設定至規則內：
 sudo snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules -i ens33 -A alert_fast -s 65535 -k none
+
+配置監聽IP位置：
+sudo vim /etc/snort/snort.conf
