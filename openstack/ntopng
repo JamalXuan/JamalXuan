@@ -1,0 +1,15 @@
+sudo apt-get install software-properties-common wget
+sudo add-apt-repository universe
+source /etc/os-release
+wget https://packages.ntop.org/apt/22.04/all/apt-ntop.deb
+sudo apt install ./apt-ntop.deb
+sudo apt install ntopng
+
+#查詢該程式啟動狀態
+systemctl status ntopng.service
+
+#查詢接埠監聽狀態
+ss -tunelp | grep ntop
+
+#進入ntop網頁：
+http://127.0.0.1:3000/
