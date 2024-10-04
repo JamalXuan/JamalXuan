@@ -1,0 +1,3 @@
+查詢流量
+sudo apt install dstat
+dstat
