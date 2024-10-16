@@ -1,0 +1,20 @@
+wget (到Splunk點選想要下載的檔案，Splunk會給網址)
+
+#注意 ubuntu只接受deb或arz檔，不接受rpm檔
+sudo dpkg -i 下載的檔案
+
+cd /opt
+ls
+cd /splunk
+ls
+cd /bin
+./splunk start
+
+#暫停
+./splunk stop
+
+#重新啟動
+./splunk restart
+
+#檢視狀態
+./splunk status
